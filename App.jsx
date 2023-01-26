@@ -1,156 +1,34 @@
-import {
-  StyleSheet,
-  LogBox,
-  Text,
-  View,
-  Pressable,
-  Image,
-  FlatList,
-  ScrollView,
-} from "react-native";
-import { icons, COLORS, SIZES } from "./constants/index";
-import { myBooks, categories } from "./data/index";
+import { StyleSheet, View, ScrollView } from "react-native";
+import { COLORS, SIZES } from "./constants/index";
 import { FONTS } from "./constants/theme";
+import { useFonts } from "expo-font";
+import TopAppBar from "./components/screen/TopAppBar/top-app-bar";
+import HeaderSection from "./components/screen/HeaderSection/header-section";
+import BookSection from "./components/screen/BookSection/book-section";
+import CategorySection from "./components/screen/CategorySection/category-section";
 
 // Hide Error FlatList using inside ScrollView
-LogBox.ignoreLogs(["VirtualizedLists"]);
+// LogBox.ignoreLogcrs(["VirtualizedLists"]);
 
 export default function App() {
+  const [loaded] = useFonts({
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <View style={styles.layout}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Home</Text>
-      </View>
+      <TopAppBar />
       <View style={styles.container}>
-        <View style={styles.HeaderSection}>
-          <View style={styles.HomeSection}>
-            <View style={styles.HomeText}>
-              <Text style={styles.h3}>Good morning</Text>
-              <Text style={styles.h2}>Username</Text>
-            </View>
-            <Pressable style={styles.buttonPoint}>
-              <View style={styles.buttonBodyPoint}>
-                <Image style={styles.icon} source={icons.plus_icon} />
-                <Text style={styles.h3}>600 points</Text>
-              </View>
-            </Pressable>
-          </View>
-          <View style={styles.Features}>
-            <Pressable>
-              <View style={styles.buttonFeatures}>
-                <Image style={styles.icon} source={icons.claim_icon} />
-                {/* <Text style={styles.h3}>+</Text> */}
-                <Text style={styles.h3}>Claim</Text>
-              </View>
-            </Pressable>
-            <View style={styles.divider}></View>
-            <Pressable>
-              <View style={styles.buttonFeatures}>
-                <Image style={styles.icon} source={icons.point_icon} />
-                {/* <Text style={styles.h3}>+</Text> */}
-                <Text style={styles.h3}>Get point</Text>
-              </View>
-            </Pressable>
-            <View style={styles.divider}></View>
-            <Pressable>
-              <View style={styles.buttonFeatures}>
-                <Image style={styles.icon} source={icons.card_icon} />
-                {/* <Text style={styles.h3}>+</Text> */}
-                <Text style={styles.h3}>My card</Text>
-              </View>
-            </Pressable>
-          </View>
-        </View>
-        <ScrollView>
-          <View style={styles.BookSection}>
-            <View style={styles.options}>
-              <Text>My book</Text>
-              <Text>see more</Text>
-            </View>
-            <View style={styles.books}>
-              <FlatList
-                style={styles.MyBooks}
-                data={myBooks}
-                horizontal
-                renderItem={({ item }) => (
-                  <Pressable style={styles.MainCard}>
-                    <Image
-                      style={styles.BookCover}
-                      source={item.bookCover}
-                      resizeMode={"cover"}
-                    />
-                    <View style={styles.MainCardInfo}>
-                      <Text>
-                        <Image
-                          style={styles.MainCardInfoIcon}
-                          source={icons.clock_icon}
-                        />
-                        {item.lastRead}
-                      </Text>
-                      <Text>
-                        <Image
-                          style={styles.MainCardInfoIcon}
-                          source={icons.menu_icon}
-                        />
-                        {item.completion}
-                      </Text>
-                    </View>
-                  </Pressable>
-                )}
-                keyExtractor={(item) => item.id}
-              />
-            </View>
-          </View>
-          <View style={styles.CategorySection}>
-            <FlatList
-              style={styles.Categories}
-              data={categories}
-              horizontal
-              renderItem={({ item }) => (
-                <Pressable style={styles.MainCard}>
-                  <Text style={styles.CategoriesName}>{item.categoryName}</Text>
-                </Pressable>
-              )}
-              keyExtractor={(item) => item.id}
-            />
-            <FlatList
-              style={styles.Categories}
-              data={categories[0].books}
-              renderItem={({ item }) => (
-                <View style={styles.SecondaryCard}>
-                  <Image
-                    style={styles.SecondaryBookCover}
-                    source={item.bookCover}
-                  />
-                  <View style={styles.SecondaryCardInfo}>
-                    <View style={styles.SecondaryCardMainInfo}>
-                      <Text>{item.bookName}</Text>
-                      <Text>{item.author}</Text>
-                      <Text>
-                        <Image
-                          style={styles.SecondaryCardInfoIcon}
-                          source={icons.page_icon}
-                        />
-                        {item.pageNo}
-                      </Text>
-                      <Text>
-                        <Image
-                          style={styles.SecondaryCardInfoIcon}
-                          source={icons.read_icon}
-                        />
-                        {item.readed}
-                      </Text>
-                    </View>
-                    <Image
-                      style={styles.SecondaryCardInfoIcon}
-                      source={icons.bookmark_icon}
-                    />
-                  </View>
-                </View>
-              )}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
+        <HeaderSection />
+        <ScrollView nestedScrollEnabled={true}>
+          <BookSection />
+          <CategorySection />
         </ScrollView>
       </View>
     </View>
@@ -158,6 +36,16 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  Genre: {
+    marginRight: 10,
+    backgroundColor: COLORS.lightRed,
+    borderRadius: SIZES.radius,
+    padding: 5,
+    flexWrap: "wrap",
+  },
+  Genres: {
+    flexDirection: "row",
+  },
   CategoriesName: {
     ...FONTS.h2,
     color: COLORS.white,
@@ -165,7 +53,7 @@ const styles = StyleSheet.create({
   CategorySection: {
     flex: 1,
   },
-  MyBooks: { gap: 20 },
+  MyBooks: {},
   BookCover: {
     height: 200,
     width: 150,
@@ -223,72 +111,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: COLORS.black,
-    paddingTop: 10,
-  },
-  header: {
-    height: 80,
-    backgroundColor: COLORS.primary,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    backgroundColor: COLORS.secondary,
+    padding: 20,
   },
   layout: {
     flex: 1,
-  },
-  title: {
-    color: COLORS.white,
-    ...FONTS.h3,
-  },
-  HeaderSection: {
-    padding: 10,
-  },
-  HomeSection: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-  },
-  h3: {
-    color: COLORS.white,
-    ...FONTS.h3,
-  },
-  h2: {
-    color: COLORS.white,
-    ...FONTS.h2,
-  },
-  point: {
-    ...FONTS.h3,
-  },
-  icon: {
-    width: 20,
-    height: 20,
-    borderRadius: SIZES.radius,
-    backgroundColor: COLORS.black,
-  },
-  buttonBodyPoint: {
-    flexDirection: "row",
-  },
-  buttonPoint: {
-    backgroundColor: COLORS.primary,
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 40,
-    padding: 5,
-  },
-  buttonFeatures: {
-    flexDirection: "row",
-  },
-  Features: {
-    flexDirection: "row",
-    padding: 5,
-    marginHorizontal: 20,
-    backgroundColor: COLORS.darkBlue,
-    justifyContent: "space-around",
-    borderRadius: SIZES.radius,
-  },
-  divider: {
-    backgroundColor: COLORS.white,
-    width: 1,
   },
 });
