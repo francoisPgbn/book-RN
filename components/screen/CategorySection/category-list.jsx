@@ -3,8 +3,7 @@ import { COLORS, FONTS } from "../../../constants/index";
 import { categories } from "../../../data/index";
 import CustomButton from "../../commun/button";
 
-export default function CategoryList({update, selectedIndex}) {
-
+export default function CategoryList({ update, selectedIndex }) {
   return (
     <FlatList
       showsHorizontalScrollIndicator={false}

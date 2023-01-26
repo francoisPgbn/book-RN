@@ -7,7 +7,7 @@ export default function CustomButton({
   styleIcon,
   styleBody,
   styleLabel,
-  click
+  click,
 }) {
   var image =
     icon != null ? (
@@ -16,11 +16,13 @@ export default function CustomButton({
       <></>
     );
   return (
-    <Pressable style={{ ...styles.body, ...styleBody }} onPress={()=> click()}>
-      {/* <View style={{ ...styles.body, ...styleBody }}> */}
-        {image}
-        <Text style={{ ...styles.label, ...styleLabel }}>{label}</Text>
-      {/* </View> */}
+    <Pressable style={{ ...styles.body, ...styleBody }} onPress={() => click()}>
+      {image}
+      {/* 
+      <View style={{ ...styles.label, ...styleLabel }}>
+        <Text>{label}</Text>
+      </View> */}
+      <Text style={{ ...styles.label, ...styleLabel }}>{label}</Text>
     </Pressable>
   );
 }
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     padding: 5,
-    borderRadius: SIZES.radius,
+    borderRadius: 16 / 2,
     backgroundColor: COLORS.gray1,
   },
   body: {
@@ -43,5 +45,7 @@ const styles = StyleSheet.create({
     ...FONTS.body4,
     color: COLORS.white,
     marginLeft: 5,
+    position: "relative",
+    bottom: 2,
   },
 });

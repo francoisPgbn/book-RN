@@ -7,8 +7,6 @@ import HeaderSection from "./components/screen/HeaderSection/header-section";
 import BookSection from "./components/screen/BookSection/book-section";
 import CategorySection from "./components/screen/CategorySection/category-section";
 
-// Hide Error FlatList using inside ScrollView
-// LogBox.ignoreLogcrs(["VirtualizedLists"]);
 
 export default function App() {
   const [loaded] = useFonts({

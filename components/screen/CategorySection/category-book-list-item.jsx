@@ -3,13 +3,32 @@ import { SIZES, icons, FONTS, COLORS } from "../../../constants/index";
 import Label from "../../commun/label";
 import Spacer from "../../commun/spacer";
 
-export default function CategoryBookListItem({ book }) {
+export default function CategoryBookListItem({ book, key }) {
   var getGenreColor = (genre) => {
     if (genre === "Romance") return styles.genreRed;
     if (genre === "Drama") return styles.genreBlue;
     if (genre === "Adventure") return styles.genreGreen;
   };
 
+  var items = book.genre.map((value, index) => (
+    <View
+      key={index}
+      style={{
+        ...styles.genre,
+        ...getGenreColor(value),
+      }}
+    >
+      <Text
+        key={index}
+        style={{
+          ...styles.label,
+          ...getGenreColor(book.genre[index]),
+        }}
+      >
+        {book.genre[index]}
+      </Text>
+    </View>
+  ));
   return (
     <View style={styles.card}>
       <Image style={styles.cover} source={book.bookCover} />
@@ -17,7 +36,7 @@ export default function CategoryBookListItem({ book }) {
         <View style={styles.info}>
           <Text style={styles.name}>{book.bookName}</Text>
           <Text style={styles.author}>{book.author}</Text>
-            <Spacer height={5} />
+          <Spacer height={5} />
           <View style={styles.stats}>
             <Label
               icon={icons.page_icon}
@@ -34,27 +53,7 @@ export default function CategoryBookListItem({ book }) {
             />
           </View>
           <Spacer height={10} />
-          <FlatList
-            style={styles.genres}
-            data={book.genre}
-            renderItem={({ value, index }) => (
-              <View
-                style={{
-                  ...styles.genre,
-                  ...getGenreColor(book.genre[index]),
-                }}
-              >
-                <Text
-                  style={{
-                    ...styles.label,
-                    ...getGenreColor(book.genre[index]),
-                  }}
-                >
-                  {book.genre[index]}
-                </Text>
-              </View>
-            )}
-          />
+          <View style={styles.genres}>{items}</View>
         </View>
         <Image style={styles.bookmark} source={icons.bookmark_icon} />
       </View>

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   Features: {
     flexDirection: "row",
     padding: 5,
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.gray1,
     justifyContent: "space-around",
     borderRadius: SIZES.radius,
   },
