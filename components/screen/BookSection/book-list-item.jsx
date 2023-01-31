@@ -5,7 +5,7 @@ import Label from "../../commun/label";
 
 export default function BookListItem({ book }) {
   return (
-    <Pressable style={styles.card}>
+    <Pressable style={styles.card} click={() => {}}>
       <Image
         style={styles.bookCover}
         source={book.bookCover}

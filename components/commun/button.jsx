@@ -18,10 +18,6 @@ export default function CustomButton({
   return (
     <Pressable style={{ ...styles.body, ...styleBody }} onPress={() => click()}>
       {image}
-      {/* 
-      <View style={{ ...styles.label, ...styleLabel }}>
-        <Text>{label}</Text>
-      </View> */}
       <Text style={{ ...styles.label, ...styleLabel }}>{label}</Text>
     </Pressable>
   );

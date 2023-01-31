@@ -15,6 +15,7 @@ export default function HomeSection() {
         icon={icons.plus_icon}
         label={label}
         styleBody={styles.btnPoint}
+        click={()=>{}}
       />
     </View>
   );

@@ -8,7 +8,11 @@ export default function BookSection() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>My book</Text>
-        <CustomButton label={"see more"} styleLabel={styles.btnLabel} />
+        <CustomButton
+          label={"see more"}
+          styleLabel={styles.btnLabel}
+          click={() => {}}
+        />
       </View>
       <BookList />
     </View>
